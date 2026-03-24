@@ -759,6 +759,12 @@ class String
   def invert;  "\e[7m#{self}\e[27m" end
 end
 
+# strips ANSI color codes from a string
+# used for json output
+def strip_ansi( str )
+  str.gsub( /\e\[[0-9;]*m/, '' )
+end
+
 # turn items like '100KB' or '1.5 GB' to bytes
 def bytes_from_nice_bytes( nice_bytes )
   parts = nice_bytes.downcase.split( /(kb|mb|gb)/ )
@@ -4892,10 +4898,10 @@ begin
           :hint_count        => inspection[ :hints ].size,
         },
         :compositions => inspection[ :composition_summaries ],
-        :errors       => inspection[ :errors ],
-        :hints        => inspection[ :hints ],
-        :siginfo      => inspection[ :siginfo ],
-        :info         => inspection[ :info ],
+        :errors       => inspection[ :errors ].map(  &:strip_ansi ),
+        :hints        => inspection[ :hints ].map(   &:strip_ansi ),
+        :siginfo      => inspection[ :siginfo ].map( &:strip_ansi ),
+        :info         => inspection[ :info ].map(    &:strip_ansi ),
       }
       puts JSON.pretty_generate( payload )
       exit inspection[ :errors ].size == 0 ? DCP_OK : DCP_ERROR
