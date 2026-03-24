@@ -4878,6 +4878,8 @@ begin
 
     # Inspection
     inspection = dcp_inspect( options, args[ 0 ] )
+
+    # JSON output
     if options.json_output
       require 'json'
       payload = {
@@ -4898,14 +4900,15 @@ begin
           :hint_count        => inspection[ :hints ].size,
         },
         :compositions => inspection[ :composition_summaries ],
-        :errors       => inspection[ :errors ].map(  &:strip_ansi ),
-        :hints        => inspection[ :hints ].map(   &:strip_ansi ),
-        :siginfo      => inspection[ :siginfo ].map( &:strip_ansi ),
-        :info         => inspection[ :info ].map(    &:strip_ansi ),
+        :errors  => inspection[ :errors ].map  { |s| strip_ansi( s ) },
+        :hints   => inspection[ :hints ].map   { |s| strip_ansi( s ) },
+        :siginfo => inspection[ :siginfo ].map { |s| strip_ansi( s ) },
+        :info    => inspection[ :info ].map    { |s| strip_ansi( s ) },
       }
       puts JSON.pretty_generate( payload )
       exit inspection[ :errors ].size == 0 ? DCP_OK : DCP_ERROR
     end
+
     print_inspection_messages( inspection ) unless @logger.is_quiet
 
     # Remove @dcp_inspect_temp
