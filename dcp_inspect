@@ -4711,6 +4711,14 @@ begin
   if ENV[ 'DCP_INSPECT_AUTOLOG' ]
     options.logfile_autolog = true
   end
+  if options.json_output
+    options.verbosity      = [ 'quiet' ]
+    # TODO: Or should the JSON output be written to a file instead of stdout? Then we could have autolog and logfile options for JSON output as well.
+    # For now, just disable all logging except JSON output
+    options.logfile        = nil 
+    options.logfile_append = nil
+    options.logfile_autolog = nil
+  end
   @logger = DLogger.new( prefix = '', options )
 
 
