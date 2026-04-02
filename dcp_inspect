@@ -4621,7 +4621,7 @@ def dcp_inspect( options, arg )
   info << 'Found ' + [ am_info, pkl_info, cpl_info ].join( ', ' )
   info << "#{ amount( 'Error', errors ) }#{ errors.size == 0 ? ' ✅' : ' ❌' }, #{ amount( 'Hint', hints ) }"
 
-  return { :errors => errors, :hints => hints, :siginfo => siginfo, :info => info, :am_files => am_files, :pkls => pkls, :cpls => cpls, :pkls_missing => pkls_missing, :cpls_missing => cpls_missing,   :composition_summaries => composition_summaries, :packages_size_bytes   => packages_size_actual }
+  return { :errors => errors, :hints => hints, :siginfo => siginfo, :info => info, :am_files => am_files, :pkls => pkls, :cpls => cpls, :pkls_missing => pkls_missing, :cpls_missing => cpls_missing, :composition_summaries => composition_summaries, :packages_size_bytes => packages_size_actual }
 end # dcp_inspect
 
 
